@@ -7,11 +7,12 @@
           <div class="lg:w-6/12 w-full lg:pr-5">
             <div class="bg-[#D1DBFF] rounded-lg flex flex-col lg:items-start items-center p-6 w-full h-full gap-4">
               <h2 class="font-bold text-xl mb-1">Criar balde</h2>
-              <div class="flex flex-col lg:items-start items-center gap-2 w-full">
+              <div class="flex flex-col lg:items-start items-center gap-2 w-full" id="capacidade">
                 <p>Capacidade</p>
                 <input type="text" class="rounded-lg border-none px-4 py-2 w-full" placeholder="Digite aqui">
               </div>
-              <button class="bg-[#3763FF] hover:bg-indigo-600 w-full text-white py-2 px-4 rounded-lg">Salvar</button>
+              <button class="bg-[#3763FF] hover:bg-indigo-600 w-full text-white py-2 px-4 rounded-lg"
+                onclick="cadastrarBalde()">Salvar</button>
             </div>
           </div>
           <div class="lg:w-6/12 w-full lg:pr-5">
@@ -19,13 +20,14 @@
               <h2 class="font-bold text-xl mb-1">Criar fruta</h2>
               <div class="flex flex-col lg:items-start items-center gap-2 w-full">
                 <p>Nome</p>
-                <input type="text" class="rounded-lg border-none px-4 py-2 w-full" placeholder="Digite aqui">
+                <input type="text" class="rounded-lg border-none px-4 py-2 w-full" id="frutaA" placeholder="Digite aqui">
               </div>
               <div class="flex flex-col lg:items-start items-center gap-2 w-full">
-                <p>Nome</p>
-                <input type="text" class="rounded-lg border-none px-4 py-2 w-full" placeholder="Digite aqui">
+                <p>Preço</p>
+                <input type="number" class="rounded-lg border-none px-4 py-2 w-full" placeholder="Digite aqui" id="preco">
               </div>
-              <button class="bg-[#3763FF] hover:bg-indigo-600 w-full text-white py-2 px-4 rounded-lg">Salvar</button>
+              <button class="bg-[#3763FF] hover:bg-indigo-600 w-full text-white py-2 px-4 rounded-lg"
+                id="saveFruit">Salvar</button>
             </div>
           </div>
         </div>
@@ -115,6 +117,36 @@
     </section>
   </main>
 </template>
+
+
+<script>
+
+export default {
+  mounted() {
+    document.getElementById('saveFruit').addEventListener('click', function () {
+      var fruta = document.getElementById('frutaA').value;
+      localStorage.setItem('fruta', JSON.stringify({ fruta: fruta }));
+      var preco = document.getElementById('preco').value;
+      localStorage.setItem('preco', JSON.stringify({ preco: preco }));
+      alert('Dados salvos no localStorage!');
+    });
+
+    document.addEventListener('DOMContentLoaded', function () {
+      var frutaSalva = localStorage.getItem('fruta');
+      var precoSalvo = localStorage.getItem('preco');
+      console.log(precoSalvo)
+      if (frutaSalva && precoSalvo) {
+        var frutaSalvaStorage = JSON.parse(frutaSalva);
+        var precoSalvoStorage = JSON.parse(precoSalvo);
+        console.log('Dados salvos no localStorage:', frutaSalvaStorage);
+      } else {
+        console.log('Nenhum dado encontrado no localStorage.');
+      }
+    });
+  }
+};
+</script>
+
 <script setup>
 import { onMounted } from 'vue'
 import { initFlowbite } from 'flowbite'
@@ -122,3 +154,4 @@ onMounted(() => {
   initFlowbite();
 })
 </script>
+
